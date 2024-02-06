@@ -33,22 +33,12 @@ public class AccountActivityImpl implements AccountActivity {
     }
   }
 
-  // Remove these credentials and take it from application.properties
-  // private static final String DB_URL = "jdbc:postgresql://localhost:5432/mydatabase";
-  // private static final String DB_USERNAME = "";
-  // private static final String DB_PASSWORD = "password"
-
   private Connection getConnection() throws SQLException {
     return DriverManager.getConnection(
         properties.getProperty("db.url"),
         properties.getProperty("db.username"),
         properties.getProperty("db.password"));
   }
-
-  // // JDBC connection
-  // private Connection getConnection() throws SQLException {
-  //     return DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-  // }
 
   @Override
   public Account saveAccount(Account account) {
@@ -57,7 +47,6 @@ public class AccountActivityImpl implements AccountActivity {
       String sql =
           "INSERT INTO accounts (id, first_name, last_name, email, created_at, updated_at, provider_id, provider_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
       try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-        // pstmt.setObject(1, account.getId());
         UUID uuid = UUID.randomUUID();
         account.setId(uuid);
         pstmt.setObject(1, uuid);
