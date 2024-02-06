@@ -18,12 +18,13 @@ public class CreateAccountWorkflowImpl implements CreateAccountWorkflow {
 
   @Override
   public Account createAccount(Account details) {
-    // Save the account
-    Account savedAccount = accountActivity.saveAccount(details);
 
-    // Create a payment account
-    Account paymentAccount = accountActivity.createPaymentAccount(savedAccount);
+    // Create a payment account to get back the providerType and providerId
+    Account paymentAccount = accountActivity.createPaymentAccount(details);
 
-    return paymentAccount;
+    // Save the account with providerType and providerId
+    Account savedAccount = accountActivity.saveAccount(paymentAccount);
+
+    return savedAccount;
   }
 }
